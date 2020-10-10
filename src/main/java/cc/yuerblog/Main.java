@@ -7,7 +7,9 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.spark.sql.SparkSession;
 
+// 官方教程：https://spark.apache.org/docs/latest/sql-getting-started.html
 // 理解：Dataset<Row>是Dataframe表格，而非<Row>的Dataset就是高级点的RDD
+// Dataset支持类似SQL的编程API，也能直接执行SQL语句，因此它需要特殊的对象序列化格式，这样做数据过滤时可以不需要反序列化
 public class Main {
     public static void main(String []args) {
         try {
