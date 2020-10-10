@@ -1,5 +1,6 @@
 package cc.yuerblog;
 
+import cc.yuerblog.sql.DF2View;
 import cc.yuerblog.sql.Rdd2DF;
 import cc.yuerblog.sql.Json2DF;
 import org.apache.hadoop.conf.Configuration;
@@ -15,13 +16,17 @@ public class Main {
             // hdfs
             FileSystem dfs =  FileSystem.get(new Configuration());
 
-            // hdfs json文本转dataframe
+            // hdfs json文本直接加载为dataframe
             Json2DF json2DF = new Json2DF();
             json2DF.run(dfs, sess);
 
-            //
+            // RDD清洗后转Dataframe
             Rdd2DF rdd2DF = new Rdd2DF();
             rdd2DF.run(dfs, sess);
+
+            // dataframe创建为视图表，直接写SQL
+            DF2View df2View = new DF2View();
+            df2View.run(dfs, sess);
         } catch (Exception e) {
 
         }
