@@ -33,7 +33,7 @@ public class DF2Hive {
         Dataset<Row> df = sess.read().json(path);
 
         // 因为此刻我没安装hive，所以只能保存为hive外表的数据，需要手动去hive建外表
-        // 如果安装了hive，可以saveAsTable()直接保存到hive内表
+        // 如果安装了hive，可以saveAsTable()保存到hive表，但是会删除旧表所有数据，不太实用。
         df.write().format("orc").mode("overwrite").option("compression", "zlib").save(hive);
 
         // 因为此刻没装hive，所以也不能用hive表名加载数据，只能直接指定路径
@@ -41,8 +41,8 @@ public class DF2Hive {
         Dataset<Row> table = sess.read().format("orc").load(hive);
         table.show();
 
-        // 在此不做具体演示
-        // 数据也可以save写入hive表分区路径下，然后通过alter table partition让hive元数据发生变更
-        // 也可以通过sql直接insert到hive表分区下会更加方便
+        // 如果hive表已经建立，那么有2个常见方式把数据写到hive表里：
+        // 1）数据也可以save写入hive表分区hdfs路径下，然后通过alter table partition让hive元数据发生变更
+        // 2）也可以通过sql直接insert到hive表分区下会更加方便，分区元数据会自动变更
     }
 }
